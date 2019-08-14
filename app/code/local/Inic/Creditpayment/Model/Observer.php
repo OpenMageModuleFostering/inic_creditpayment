@@ -54,15 +54,25 @@ class Inic_Creditpayment_Model_Observer
 	}
     public function isAvailable(Varien_Event_Observer $observer)
     {
+     
         $event           = $observer->getEvent();
         $method          = $event->getMethodInstance();
         $result          = $event->getResult();
         $quote           = $event->getQuote();
         if($method->getCode() == 'creditpayment' ){
-	        $customerGroup 		= $quote->getCustomerGroupId();
+	        //$customerGroup 		= $quote->getCustomerGroupId();
+             $customerGroup="";
+             $customerID="";
+             $login = Mage::getSingleton( 'customer/session' )->isLoggedIn(); //Check if User is Logged In
+        if($login)
+        {
+            $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId(); //Get Customers Group ID
+            $customerID = Mage::getSingleton('customer/session')->getCustomerId(); //Get Customers Group ID
+
+        }
 	        $SelectedCustomerGroups =   Mage::getStoreConfig('payment/creditpayment/specificcustomers'); 
 	        $SelectedCustomerGroupsArray = explode(",", $SelectedCustomerGroups);
-	            if($SelectedCustomerGroups != "" || $quote->getCustomerId() == " "){
+	            if($SelectedCustomerGroups != "" || $customerID == " "){
 	                if(!in_array($customerGroup, $SelectedCustomerGroupsArray)) {
 	                            $result->isAvailable = false;
 	                    } 

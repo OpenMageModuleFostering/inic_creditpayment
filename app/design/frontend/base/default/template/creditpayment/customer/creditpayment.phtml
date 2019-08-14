@@ -1,11 +1,9 @@
-   <div class="box-account">
+ <div class="box-account">
                     <div class="box-head">
                         <h2><?php echo $this->__('Credit Limit')?></h2>
                     </div>
                      <div>
-                               <?php  
-                                   $currencySymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
-                                   $CrditBalance = $currencySymbol.$this->getCustomer()->getCreditLimit();?>                                   <?php echo $this->__('Your Credit balance is ').$CrditBalance;?>
+                     <?php  echo $this->__('Your Credit balance is  %s',$this->helper('core')->currency($this->getCustomer()->getCreditLimit(),true,false));?>
                                
                          </div>
                     
